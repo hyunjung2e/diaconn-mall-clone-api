@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/check-email")
+    @GetMapping("/checkemail")
     public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
         boolean isDuplicate = userService.isEmailDuplicate(email);
         return ResponseEntity.ok(isDuplicate);
