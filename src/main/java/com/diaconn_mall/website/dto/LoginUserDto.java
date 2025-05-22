@@ -1,6 +1,5 @@
 package com.diaconn_mall.website.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
-    private String message;
-    private LoginUserDto  user;
+public class LoginUserDto {
+    private long id;
+    private String name;
+    private String email;
 }

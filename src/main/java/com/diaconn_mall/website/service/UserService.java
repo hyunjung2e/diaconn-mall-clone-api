@@ -26,7 +26,6 @@ public class UserService {
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
-
         User user = new User();
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
@@ -36,3 +35,5 @@ public class UserService {
         userRepository.save(user);
     }
 }
+
+
