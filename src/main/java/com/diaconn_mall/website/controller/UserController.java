@@ -8,10 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService;
 
     @GetMapping("/checkemail")
@@ -22,6 +21,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
+        System.out.println(">>> 회원가입 요청 도착: " + userDto);
         userService.registerUser(userDto);
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
     }
