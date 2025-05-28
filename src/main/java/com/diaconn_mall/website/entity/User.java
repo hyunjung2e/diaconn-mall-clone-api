@@ -8,8 +8,7 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-///Todo. user는 예약어로 테이블명으로 쓰면 오류가 나는 경우가 있다고함 (테이블 자체를 'users로' 변경해야될지 고민)
-@Table(name = "user")
+@Table(name = "c_user")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,15 +16,22 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
+    @Column(nullable = false)
     private String name;
-    private String phone;
-    private String password;
-    private String address;
 
-    @Column(unique = true)
+    @Column(nullable = false)
+    private String password;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column
+    private String phone;
+
+    @Column
+    private String address;
 
     @Column(name = "address_detail")
     private String addressDetail;
