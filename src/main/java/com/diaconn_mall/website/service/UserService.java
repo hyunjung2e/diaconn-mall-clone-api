@@ -19,7 +19,11 @@ public class UserService {
     }
 
     public boolean isEmailDuplicate(String email) {
-        return userRepository.existsByEmail(email);
+        // 이메일이 null이거나 비어있으면 중복이 아닌 것으로 처리
+        if (email == null || email.trim().isEmpty()) {
+            return false;
+        }
+        return userRepository.existsByEmail(email.trim().toLowerCase());
     }
 
     public void registerUser(UserDto userDto) {

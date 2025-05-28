@@ -15,9 +15,12 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/checkemail")
-    public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+    public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam String email) {
         boolean isDuplicate = userService.isEmailDuplicate(email);
-        return ResponseEntity.ok(isDuplicate);
+        return ResponseEntity.ok(Map.of(
+                "isDuplicate", isDuplicate,
+                "message", isDuplicate ? "이미 사용중인 이메일입니다." : "사용 가능한 이메일입니다."
+        ));
     }
 
     @PostMapping(value = "/register", produces = "application/json")
