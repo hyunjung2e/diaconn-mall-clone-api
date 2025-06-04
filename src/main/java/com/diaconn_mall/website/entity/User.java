@@ -42,8 +42,8 @@ public class User {
     @Column(name = "join_date", nullable = false)
     private LocalDateTime joinDate = LocalDateTime.now();
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt= LocalDateTime.now();
 
     @Column(name = "outdate_at")
     private LocalDateTime outdateAt;
