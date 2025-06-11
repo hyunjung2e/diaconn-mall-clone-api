@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Banner {
+public class Main {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

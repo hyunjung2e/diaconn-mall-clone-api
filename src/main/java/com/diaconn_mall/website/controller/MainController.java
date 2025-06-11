@@ -1,5 +1,5 @@
 package com.diaconn_mall.website.controller;
-import com.diaconn_mall.website.service.BannerService;
+import com.diaconn_mall.website.service.MainService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,24 +11,24 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/api/banners")
-public class BannerController {
+@RequestMapping("/api/main")
+public class MainController {
 
-    private final BannerService bannerService;
+    private final MainService mainService;
 
     @Value("${banner.image.base-url:/upload/}")
-    private String bannerBaseUrl;
+    private String mainBaseUrl;
 
-    public BannerController(BannerService bannerService) {
-        this.bannerService = bannerService;
+    public MainController(MainService mainService) {
+        this.mainService = mainService;
     }
 
     @GetMapping
-    public ResponseEntity<List<BannerResponse>> getBanners() {
-        List<BannerResponse> responses = bannerService.getAllBanners().stream()
-                .map(b -> new BannerResponse(
+    public ResponseEntity<List<MainResponse>> getBanners() {
+        List<MainResponse> responses = mainService.getAllBanners().stream()
+                .map(b -> new MainResponse(
                         b.getId(),
-                        bannerBaseUrl + b.getFilename(),
+                        mainBaseUrl + b.getFilename(),
                         b.getAltText(),
                         b.getSortOrder()
                 ))
@@ -36,6 +36,6 @@ public class BannerController {
         return ResponseEntity.ok(responses);
     }
 
-    record BannerResponse(Long id, String imageUrl, String altText, Integer sortOrder) {}
+    record MainResponse(Long id, String imageUrl, String altText, Integer sortOrder) {}
 }
 
