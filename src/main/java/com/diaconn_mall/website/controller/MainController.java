@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @RestController
 @RequestMapping("/api/main")
 public class MainController {
@@ -28,14 +27,13 @@ public class MainController {
         List<MainResponse> responses = mainService.getAllBanners().stream()
                 .map(b -> new MainResponse(
                         b.getId(),
-                        mainBaseUrl + b.getFilename(),
+                        "/api/images/" + b.getFilename(),  // 이미지 접근 경로 변경
                         b.getAltText(),
                         b.getSortOrder()
                 ))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responses);
     }
-
     record MainResponse(Long id, String imageUrl, String altText, Integer sortOrder) {}
 }
 
