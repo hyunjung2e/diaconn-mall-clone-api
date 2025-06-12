@@ -40,5 +40,3 @@ out/
 # ignore sensitive config
 src/main/resources/application.yml
 
-# images
-/uploads/
