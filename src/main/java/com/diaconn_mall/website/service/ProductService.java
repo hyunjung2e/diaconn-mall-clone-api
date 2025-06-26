@@ -8,13 +8,24 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    private final ProductRepository repository;
+    private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository repository) {
-        this.repository = repository;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     public List<Product> searchByName(String keyword) {
-        return repository.findByNmContaining(keyword);
+        return productRepository.findByNmContaining(keyword);
+    }
+
+    public List<Product> getAllBanners() {
+        List<Product> banners = productRepository.findAll().stream()
+                .filter(Product::isBanner)
+                .toList();
+        return banners;
+    }
+
+    public List<Product> getProductImages() {
+        return productRepository.findByIsBannerFalse();
     }
 }

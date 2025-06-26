@@ -14,11 +14,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Product {
     @Id
-    private int id;
+    private Integer id;
+    private boolean isBanner;
     private String nm;
-    private String description;
-    private int count;
-    private int price;
+    private String desc;
+    private Integer count;
+    private Integer price;
     private String imgUrl;
+    private String altText;
     private String state;
 }
