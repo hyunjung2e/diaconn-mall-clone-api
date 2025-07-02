@@ -7,10 +7,4 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     // nm 컬럼에 검색어가 포함된 상품 조회 (Like 쿼리)
     List<Product> findByNmContaining(String nm);
-
-    // 배너 상품만 가져오기
-    List<Product> findByIsBannerTrue();
-
-    // 일반 상품만 가져오기
-    List<Product> findByIsBannerFalse();
  }
