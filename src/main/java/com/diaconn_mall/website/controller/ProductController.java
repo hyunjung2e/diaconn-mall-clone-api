@@ -1,5 +1,6 @@
 package com.diaconn_mall.website.controller;
 
+import com.diaconn_mall.website.dto.ProductResponse;
 import com.diaconn_mall.website.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/product")
@@ -24,35 +24,39 @@ public class ProductController {
     private String region;
 
     @GetMapping("/banners")
-    public ResponseEntity<List<ImageResponse>> getBanners() {
-        List<ImageResponse> banners = productService.getAllBanners().stream()
+    public ResponseEntity<List<ProductResponse>> getBanners() {
+        List<ProductResponse> banners = productService.getBanners().stream()
                 .map(p -> {
-                    String imageUrl = resolveImageUrl(p.getImgUrl());
-                    return new ImageResponse(p.getId(), imageUrl, p.getAltText());
+                    return new ProductResponse(p.getId(),
+                            p.getNm(),
+                            p.getDesc(),
+                            p.getPrice(),
+                            resolveImageUrl(p.getImgUrl()),
+                            p.getAltText());
                 })
                 .toList();
         return ResponseEntity.ok(banners);
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ImageResponse>> getProducts() {
-        List<ImageResponse> products = productService.getProductImages().stream()
-                .map(p -> {
-                    String imageUrl = resolveImageUrl("banner/" + p.getImgUrl());
-                    return new ImageResponse(p.getId(), imageUrl, p.getAltText());
-                })
-                .toList();
+    public ResponseEntity<List<ProductResponse>> getProducts() {
+        List<ProductResponse> products = productService.getProducts().stream()
+                .map(p -> new ProductResponse(
+                        p.getId(),
+                        p.getNm(),
+                        p.getDesc(),
+                        p.getPrice(),
+                        resolveImageUrl(p.getImgUrl()),
+                        p.getAltText()
+                ))
+        .toList();
         return ResponseEntity.ok(products);
     }
 
-    // 절대경로인지 검사
     private String resolveImageUrl(String path) {
         if (path.startsWith("http")) return path;
         String fullPath = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, path);
         System.out.println("조립된 이미지 URL: " + fullPath);
         return fullPath;
     }
-
-
-    public record ImageResponse(Integer id, String imageUrl, String altText) {}
 }
