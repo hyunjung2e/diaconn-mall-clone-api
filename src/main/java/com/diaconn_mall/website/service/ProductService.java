@@ -18,14 +18,15 @@ public class ProductService {
         return productRepository.findByNmContaining(keyword);
     }
 
-    public List<Product> getAllBanners() {
-        List<Product> banners = productRepository.findAll().stream()
+    public List<Product> getBanners() {
+        return productRepository.findAll().stream()
                 .filter(Product::isBanner)
                 .toList();
-        return banners;
     }
 
-    public List<Product> getProductImages() {
-        return productRepository.findByIsBannerFalse();
+    public List<Product> getProducts() {
+        return productRepository.findAll().stream()
+                .filter(p -> !p.isBanner())
+                .toList();
     }
 }
