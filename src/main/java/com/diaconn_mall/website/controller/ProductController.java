@@ -77,4 +77,27 @@ public class ProductController {
                     .body(Map.of("message", "상품을 찾을 수 없습니다."));
         }
     }
+
+    // 상품 검색
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductResponse>> searchProducts(@RequestParam("q") String keyword) {
+        List<Product> products = productService.searchByName(keyword);
+
+        List<ProductResponse> responseList = products.stream()
+                .map(p -> new ProductResponse(
+                        p.getId(),
+                        p.getNm(),
+                        p.getDesc(),
+                        p.getPrice(),
+                        resolveImageUrl(p.getImgUrl()),
+                        p.getAltText()
+                ))
+                .toList();
+
+        return ResponseEntity.ok(responseList);
+    }
 }
+
+
+
+
