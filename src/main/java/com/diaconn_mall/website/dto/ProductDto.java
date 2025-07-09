@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ProductResponse {
+public class ProductDto {
     private Integer id;
     private boolean isBanner;
     private String nm;

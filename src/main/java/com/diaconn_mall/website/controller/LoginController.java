@@ -1,7 +1,7 @@
 package com.diaconn_mall.website.controller;
 
-import com.diaconn_mall.website.dto.LoginRequest;
-import com.diaconn_mall.website.dto.LoginResponse;
+import com.diaconn_mall.website.dto.LoginDto;
+import com.diaconn_mall.website.dto.LoginResponseDto;
 import com.diaconn_mall.website.dto.LoginUserDto;
 import com.diaconn_mall.website.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +21,15 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto, HttpSession session) {
         try {
-            LoginResponse response = authService.login(loginRequest);
+            LoginResponseDto response = authService.login(loginDto);
             session.setAttribute("user",response.getUser());
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(new LoginResponse(e.getMessage(), null));
+                    .body(new LoginResponseDto(e.getMessage(), null));
         }
     }
 

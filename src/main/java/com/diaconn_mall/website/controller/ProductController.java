@@ -1,6 +1,6 @@
 package com.diaconn_mall.website.controller;
 
-import com.diaconn_mall.website.dto.ProductResponse;
+import com.diaconn_mall.website.dto.ProductDto;
 import com.diaconn_mall.website.entity.Product;
 import com.diaconn_mall.website.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +28,9 @@ public class ProductController {
     private String region;
 
     @GetMapping("/banners")
-    public ResponseEntity<List<ProductResponse>> getBanners() {
-        List<ProductResponse> banners = productService.getBanners().stream()
-                .map(p -> new ProductResponse(
+    public ResponseEntity<List<ProductDto>> getBanners() {
+        List<ProductDto> banners = productService.getBanners().stream()
+                .map(p -> new ProductDto(
                             p.getId(),
                             p.isBanner(),
                             p.getNm(),
@@ -47,9 +47,9 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductResponse>> getProducts() {
-        List<ProductResponse> products = productService.getProducts().stream()
-                .map(p -> new ProductResponse(
+    public ResponseEntity<List<ProductDto>> getProducts() {
+        List<ProductDto> products = productService.getProducts().stream()
+                .map(p -> new ProductDto(
                         p.getId(),
                         p.isBanner(),
                         p.getNm(),
@@ -88,11 +88,11 @@ public class ProductController {
 
     // 상품 검색
     @GetMapping("/search")
-    public ResponseEntity<List<ProductResponse>> searchProducts(@RequestParam("q") String keyword) {
+    public ResponseEntity<List<ProductDto>> searchProducts(@RequestParam("q") String keyword) {
         List<Product> products = productService.searchByName(keyword);
 
-        List<ProductResponse> responseList = products.stream()
-                .map(p -> new ProductResponse(
+        List<ProductDto> responseList = products.stream()
+                .map(p -> new ProductDto(
                         p.getId(),
                         p.isBanner(),
                         p.getNm(),
