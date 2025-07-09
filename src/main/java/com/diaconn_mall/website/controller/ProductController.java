@@ -65,12 +65,24 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    private String resolveImageUrl(String path) {
-        if (path == null || path.isBlank()) return null;
-        if (path.startsWith("http")) return path;
-        String fullPath = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, path);
-        System.out.println("조립된 이미지 URL: " + fullPath);
-        return fullPath;
+    // 상품 카테고리별 조회
+    @GetMapping("/products/{category}")
+    public ResponseEntity<List<ProductDto>> getCategoryProducts(@PathVariable String category) {
+        List<ProductDto> products = productService.getCategoryProducts(category).stream()
+                .map(p -> new ProductDto(
+                        p.getId(),
+                        p.isBanner(),
+                        p.getNm(),
+                        p.getDesc(),
+                        p.getCount(),
+                        p.getPrice(),
+                        resolveImageUrl(p.getImgUrl()),
+                        p.getAltText(),
+                        p.getState(),
+                        p.getCategory()
+                ))
+                .toList();
+        return ResponseEntity.ok(products);
     }
 
     // 상품 상세 조회
@@ -106,6 +118,14 @@ public class ProductController {
                 .toList();
 
         return ResponseEntity.ok(responseList);
+    }
+
+    private String resolveImageUrl(String path) {
+        if (path == null || path.isBlank()) return null;
+        if (path.startsWith("http")) return path;
+        String fullPath = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, path);
+        System.out.println("조립된 이미지 URL: " + fullPath);
+        return fullPath;
     }
 }
 
