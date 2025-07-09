@@ -15,6 +15,7 @@ import lombok.Setter;
 public class Product {
     @Id
     private Integer id;
+    @Column(name = "is_banner")
     private boolean isBanner;
     private String nm;
     private String desc;
