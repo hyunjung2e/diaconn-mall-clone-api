@@ -31,16 +31,16 @@ public class ProductController {
     public ResponseEntity<List<ProductDto>> getBanners() {
         List<ProductDto> banners = productService.getBanners().stream()
                 .map(p -> new ProductDto(
-                            p.getId(),
-                            p.isBanner(),
-                            p.getNm(),
-                            p.getDesc(),
-                            p.getCount(),
-                            p.getPrice(),
-                            resolveImageUrl(p.getImgUrl()),
-                            p.getAltText(),
-                            p.getState(),
-                            p.getCategory()
+                        p.getId(),
+                        p.isBanner(),
+                        p.getNm(),
+                        p.getDesc(),
+                        p.getCount(),
+                        p.getPrice(),
+                        resolveImageUrl(p.getImgUrl()),
+                        p.getAltText(),
+                        p.getState(),
+                        p.getCategory()
                 ))
                 .toList();
         return ResponseEntity.ok(banners);
@@ -61,17 +61,17 @@ public class ProductController {
                         p.getState(),
                         p.getCategory()
                 ))
-        .toList();
+                .toList();
         return ResponseEntity.ok(products);
     }
 
     private String resolveImageUrl(String path) {
+        if (path == null || path.isBlank()) return null;
         if (path.startsWith("http")) return path;
         String fullPath = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, path);
         System.out.println("조립된 이미지 URL: " + fullPath);
         return fullPath;
     }
-
 
     // 상품 상세 조회
     @GetMapping("/{id}")
@@ -90,7 +90,6 @@ public class ProductController {
     @GetMapping("/search")
     public ResponseEntity<List<ProductDto>> searchProducts(@RequestParam("q") String keyword) {
         List<Product> products = productService.searchByName(keyword);
-
         List<ProductDto> responseList = products.stream()
                 .map(p -> new ProductDto(
                         p.getId(),
