@@ -23,4 +23,5 @@ public class Product {
     private String imgUrl;
     private String altText;
     private String state;
+    private String category;
 }
