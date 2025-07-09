@@ -30,14 +30,18 @@ public class ProductController {
     @GetMapping("/banners")
     public ResponseEntity<List<ProductResponse>> getBanners() {
         List<ProductResponse> banners = productService.getBanners().stream()
-                .map(p -> {
-                    return new ProductResponse(p.getId(),
+                .map(p -> new ProductResponse(
+                            p.getId(),
+                            p.isBanner(),
                             p.getNm(),
                             p.getDesc(),
+                            p.getCount(),
                             p.getPrice(),
                             resolveImageUrl(p.getImgUrl()),
-                            p.getAltText());
-                })
+                            p.getAltText(),
+                            p.getState(),
+                            p.getCategory()
+                ))
                 .toList();
         return ResponseEntity.ok(banners);
     }
@@ -47,11 +51,15 @@ public class ProductController {
         List<ProductResponse> products = productService.getProducts().stream()
                 .map(p -> new ProductResponse(
                         p.getId(),
+                        p.isBanner(),
                         p.getNm(),
                         p.getDesc(),
+                        p.getCount(),
                         p.getPrice(),
                         resolveImageUrl(p.getImgUrl()),
-                        p.getAltText()
+                        p.getAltText(),
+                        p.getState(),
+                        p.getCategory()
                 ))
         .toList();
         return ResponseEntity.ok(products);
@@ -86,11 +94,15 @@ public class ProductController {
         List<ProductResponse> responseList = products.stream()
                 .map(p -> new ProductResponse(
                         p.getId(),
+                        p.isBanner(),
                         p.getNm(),
                         p.getDesc(),
+                        p.getCount(),
                         p.getPrice(),
                         resolveImageUrl(p.getImgUrl()),
-                        p.getAltText()
+                        p.getAltText(),
+                        p.getState(),
+                        p.getCategory()
                 ))
                 .toList();
 
