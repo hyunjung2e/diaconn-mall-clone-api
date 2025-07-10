@@ -31,6 +31,12 @@ public class ProductService {
                 .toList();
     }
 
+    public List<Product> getCategoryProducts(String category) {
+        return productRepository.findAll().stream()
+                .filter(p -> category.equals(p.getCategory()))
+                .toList();
+    }
+
     // 상품 ID로 단건조회
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
