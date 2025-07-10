@@ -31,14 +31,14 @@ DROP TABLE IF EXISTS `c_cart`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `c_cart` (
-  `id` int NOT NULL,
+  `product_id` int NOT NULL,
   `count` int NOT NULL,
   `added_at` datetime NOT NULL,
   `user_id` bigint DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`product_id`),
   KEY `fk_cart_user` (`user_id`),
-  CONSTRAINT `fk_cart_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`),
-  CONSTRAINT `product_id` FOREIGN KEY (`id`) REFERENCES `c_product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_cart_product_id` FOREIGN KEY (`product_id`) REFERENCES `c_product` (`id`),
+  CONSTRAINT `fk_cart_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -89,7 +89,7 @@ CREATE TABLE `c_order` (
   `address_detail` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `phone` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `cart_id` FOREIGN KEY (`id`) REFERENCES `c_cart` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `cart_id` FOREIGN KEY (`id`) REFERENCES `c_cart` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -160,18 +160,18 @@ DROP TABLE IF EXISTS `c_product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `c_product` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `nm` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `desc` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `count` int NOT NULL,
   `price` int NOT NULL,
-  `img_url` varchar(5000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `img_url` longtext COLLATE utf8mb3_bin,
   `state` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `alt_text` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `is_banner` bit(1) NOT NULL,
   `category` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,4 +226,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-10 10:33:58
+-- Dump completed on 2025-07-10 13:25:07
