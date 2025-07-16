@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 9.2.0, for macos14.7 (arm64)
+-- MySQL dump 10.13  Distrib 8.4.5, for macos15 (arm64)
 --
 -- Host: localhost    Database: diaconn_mall_clone
 -- ------------------------------------------------------
--- Server version	9.2.0
+-- Server version	8.4.5
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -165,12 +165,12 @@ CREATE TABLE `c_product` (
   `desc` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `count` int NOT NULL,
   `price` int NOT NULL,
-  `img_url` longtext COLLATE utf8mb3_bin,
+  `img_url` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin,
   `state` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `alt_text` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `is_banner` bit(1) NOT NULL,
   `category` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `content_desc` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL,
+  `content_desc` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -227,4 +227,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-17  1:16:58
+-- Dump completed on 2025-07-17  1:57:07
