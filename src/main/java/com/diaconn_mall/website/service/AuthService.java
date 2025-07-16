@@ -22,8 +22,7 @@ public class AuthService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        LoginUserDto loginUserDto = new LoginUserDto(user.getId(), user.getName(), user.getEmail());
-
+        LoginUserDto loginUserDto = new LoginUserDto(user.getId(), user.getName(), user.getEmail(), user.getPhone(), user.getAddress(), user.getAddressDetail());
         return new LoginResponseDto("로그인 성공", loginUserDto);
     }
 }
