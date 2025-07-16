@@ -8,7 +8,7 @@ public class ProductDto {
     private Integer id;
     private boolean isBanner;
     private String nm;
-    private String desc;
+    private String contentDesc;
     private Integer count;
     private Integer price;
     private String imgUrl;

@@ -18,7 +18,8 @@ public class Product {
     @Column(name = "is_banner")
     private boolean isBanner;
     private String nm;
-    private String desc;
+    @Column(name = "content_desc")
+    private String contentDesc;
     private Integer count;
     private Integer price;
     @Column(name = "img_url", columnDefinition = "LONGTEXT")
