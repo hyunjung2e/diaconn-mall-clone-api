@@ -43,4 +43,10 @@ public class LoginController {
                     .body(Map.of("message", "로그인된 사용자가 없습니다."));
         }
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpSession session) {
+        session.invalidate(); // 세션 무효화
+        return ResponseEntity.ok(Map.of("message", "로그아웃 되었습니다."));
+    }
 }
