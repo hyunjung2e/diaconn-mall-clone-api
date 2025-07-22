@@ -87,7 +87,7 @@ public class ProductController {
 
     // 상품 상세 조회
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable Long id) {
+    public ResponseEntity<?> getProductById(@PathVariable int id) {
         Optional<Product> product = productService.findById(id);
 
         if (product.isPresent()) {
