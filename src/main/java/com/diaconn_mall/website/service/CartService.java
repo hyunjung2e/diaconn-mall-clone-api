@@ -19,7 +19,7 @@ public class CartService {
         this.cartRepository = cartRepository;
     }
 
-    public void addToCart(Long userId, int productId, int count) {
+    public void addToCart(Long userId, Long productId, int count) {
         Optional<Cart> existing = cartRepository.findByUserIdAndProductId(userId, productId);
 
         if (existing.isPresent()) {

@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Product {
     @Id
-    private Integer id;
+    private Long id;
     @Column(name = "is_banner")
     private boolean isBanner;
     private String nm;

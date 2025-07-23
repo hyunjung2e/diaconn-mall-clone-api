@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class AddToCartRequest {
     private Long id;
     private Long userId;
-    private Integer productId;
+    private Long productId;
     private int count;
 }
