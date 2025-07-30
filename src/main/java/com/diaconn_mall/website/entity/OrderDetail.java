@@ -16,7 +16,7 @@ public class OrderDetail {
 
     // FK: order_id → c_order.id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
     private Long productId;
     private Long productPrice;
