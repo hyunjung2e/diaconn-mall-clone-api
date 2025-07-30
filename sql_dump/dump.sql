@@ -95,7 +95,7 @@ CREATE TABLE `c_order` (
   PRIMARY KEY (`id`),
   KEY `fk_order_user` (`user_id`),
   CONSTRAINT `fk_order_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `c_order` (
 
 LOCK TABLES `c_order` WRITE;
 /*!40000 ALTER TABLE `c_order` DISABLE KEYS */;
-INSERT INTO `c_order` VALUES (1,185000,'2025-07-30 13:23:52','서울시 동작구','동작구','01012341234','현정',2,'');
+INSERT INTO `c_order` VALUES (1,185000,'2025-07-30 13:23:52','서울시 동작구','동작구','01012341234','현정',2,''),(2,30000,'2025-07-30 13:47:37','서울시 동작구','동작구','01012341234','현정',2,''),(3,20000,'2025-07-30 13:54:06','서울시 동작구','동작구','01012341234','현정',2,'테스트!!!!!'),(4,10000,'2025-07-30 13:55:54','서울시 동작구','동작구','01012341234','현정',2,''),(5,10000,'2025-07-30 14:02:26','서울시 동작구','동작구','01012341234','현정',2,'34124122442'),(6,30000,'2025-07-30 14:05:01','서울시 동작구','동작구','01012341234','현정',2,''),(7,30000,'2025-07-30 14:22:56','서울시 동작구','동작구','01012341234','현정',2,'fcuuvuyvuuvuvgcfxxdxd'),(8,30000,'2025-07-30 14:24:30','서울시 동작구','동작구','01012341234','현정',2,'ㅟㅣㅟㅟㅟㅜㅟㅟ'),(9,30000,'2025-07-30 14:28:40','서울시 동작구','동작구','01012341234','현정',2,'ㅣㅡ2ㅣㅡ2ㅢㅢ2ㅢ2ㅢ2'),(10,30000,'2025-07-30 14:32:02','서울시 동작구','동작구','01012341234','현정',2,'막테테테테테');
 /*!40000 ALTER TABLE `c_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,7 +125,7 @@ CREATE TABLE `c_order_detail` (
   PRIMARY KEY (`id`),
   KEY `fk_orderdetail_order` (`order_id`),
   CONSTRAINT `fk_orderdetail_order` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,6 +134,7 @@ CREATE TABLE `c_order_detail` (
 
 LOCK TABLES `c_order_detail` WRITE;
 /*!40000 ALTER TABLE `c_order_detail` DISABLE KEYS */;
+INSERT INTO `c_order_detail` VALUES (1,10,1,20000,1,20000),(2,10,2,10000,1,10000);
 /*!40000 ALTER TABLE `c_order_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +154,7 @@ CREATE TABLE `c_pay` (
   PRIMARY KEY (`id`),
   KEY `fk_pay_order` (`order_id`),
   CONSTRAINT `fk_pay_order` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +163,7 @@ CREATE TABLE `c_pay` (
 
 LOCK TABLES `c_pay` WRITE;
 /*!40000 ALTER TABLE `c_pay` DISABLE KEYS */;
-INSERT INTO `c_pay` VALUES (1,'2025-07-30 13:23:52','pay_done',185000,1);
+INSERT INTO `c_pay` VALUES (1,'2025-07-30 13:23:52','pay_done',185000,1),(2,'2025-07-30 13:47:37','pay_done',30000,2),(3,'2025-07-30 13:54:06','pay_done',20000,3),(4,'2025-07-30 13:55:54','pay_done',10000,4),(5,'2025-07-30 14:02:26','pay_done',10000,5),(6,'2025-07-30 14:05:01','pay_done',30000,6),(7,'2025-07-30 14:22:56','pay_done',30000,7),(8,'2025-07-30 14:24:30','pay_done',30000,8),(9,'2025-07-30 14:28:40','pay_done',30000,9),(10,'2025-07-30 14:32:02','pay_done',30000,10);
 /*!40000 ALTER TABLE `c_pay` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,4 +242,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-30 22:25:24
+-- Dump completed on 2025-07-30 23:41:10
