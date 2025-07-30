@@ -83,19 +83,19 @@ DROP TABLE IF EXISTS `c_order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `c_order` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `total_price` bigint DEFAULT NULL,
   `regdate` datetime NOT NULL,
-  `address` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL,
-  `address_detail` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb3_bin NOT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `address_detail` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `user_id` bigint NOT NULL,
-  `memo` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL,
+  `memo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_order_user` (`user_id`),
   CONSTRAINT `fk_order_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,6 +104,7 @@ CREATE TABLE `c_order` (
 
 LOCK TABLES `c_order` WRITE;
 /*!40000 ALTER TABLE `c_order` DISABLE KEYS */;
+INSERT INTO `c_order` VALUES (1,185000,'2025-07-30 13:23:52','서울시 동작구','동작구','01012341234','현정',2,'');
 /*!40000 ALTER TABLE `c_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +124,7 @@ CREATE TABLE `c_order_detail` (
   `product_total_price` bigint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_orderdetail_order` (`order_id`),
-  CONSTRAINT `fk_orderdetail_order` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`id`)
+  CONSTRAINT `fk_orderdetail_order` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -146,13 +147,13 @@ DROP TABLE IF EXISTS `c_pay`;
 CREATE TABLE `c_pay` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `pay_date` datetime NOT NULL,
-  `status` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `amount` bigint DEFAULT NULL,
   `order_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_pay_order` (`order_id`),
-  CONSTRAINT `fk_pay_order` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+  CONSTRAINT `fk_pay_order` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,6 +162,7 @@ CREATE TABLE `c_pay` (
 
 LOCK TABLES `c_pay` WRITE;
 /*!40000 ALTER TABLE `c_pay` DISABLE KEYS */;
+INSERT INTO `c_pay` VALUES (1,'2025-07-30 13:23:52','pay_done',185000,1);
 /*!40000 ALTER TABLE `c_pay` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,4 +241,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-23  9:40:41
+-- Dump completed on 2025-07-30 22:25:24
