@@ -1,6 +1,7 @@
 package com.diaconn_mall.website.service;
 
 import com.diaconn_mall.website.dto.OrderDto;
+import com.diaconn_mall.website.dto.OrderDetailDto;
 import com.diaconn_mall.website.entity.Order;
 import com.diaconn_mall.website.entity.OrderDetail;
 import com.diaconn_mall.website.entity.Pay;
@@ -12,7 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,14 +26,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final PayRepository payRepository;
-
-    /**
-     * 주문 저장
-     */
+    
+    // 주문 저장
     @Transactional
     public Order saveOrder(OrderDto orderDto) {
+        // 1. c_order 업데이트
         Order order = new Order();
         order.setTotalPrice(orderDto.getTotalPrice());
+        order.setRegdate(LocalDateTime.now());
         order.setAddress(orderDto.getAddress());
         order.setAddressDetail(orderDto.getAddressDetail());
         order.setPhone(orderDto.getPhone());
@@ -36,37 +41,35 @@ public class OrderService {
         order.setUserId(orderDto.getUserId());
         order.setMemo(orderDto.getMemo());
 
-        return orderRepository.save(order);
-    }
+        // order ID 확보
+        Order savedOrder = orderRepository.save(order);
 
-    @Transactional
-    public void updateFullOrder(OrderDto dto) {
-        // 주문 정보 조회 및 업데이트
-        Order order = orderRepository.findById(dto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("주문을 찾을 수 없습니다."));
-        order.setAddress(dto.getAddress());
-        order.setAddressDetail(dto.getAddressDetail());
-        order.setMemo(dto.getMemo());
-        order.setPhone(dto.getPhone());
-        order.setTotalPrice(dto.getTotalPrice());
-        orderRepository.save(order);
+        // 2. c_order_datail 업데이트
+        // NullPointerException 대비
+        List<OrderDetail> orderDetails = Optional.ofNullable(orderDto.getOrderDetails())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(detailDto -> {
+                    OrderDetail detail = new OrderDetail();
+                    detail.setOrder(savedOrder);
+                    detail.setProductId(detailDto.getProductId());
+                    detail.setProductPrice(detailDto.getProductPrice());
+                    detail.setProductQuantity(detailDto.getProductQuantity());
+                    detail.setProductTotalPrice(detailDto.getProductPrice() * detailDto.getProductQuantity());
+                    return detail;
+                })
+                .toList();
+        orderDetailRepository.saveAll(orderDetails);
 
-        // 주문 상세 정보 수정
-        List<OrderDetail> details = orderDetailRepository.findByOrderId(order.getId());
-        for (OrderDetail detail : details) {
-            detail.setProductPrice(dto.getProductPrice());
-            detail.setProductQuantity(dto.getProductQuantity());
-            detail.setProductTotalPrice(dto.getProductPrice() * dto.getProductQuantity());
-        }
-        orderDetailRepository.saveAll(details);
-
-        // 결제 정보 수정
-        Pay pay = payRepository.findByOrderId(order.getId())
-                .orElseThrow(() -> new IllegalArgumentException("결제 정보를 찾을 수 없습니다."));
-        pay.setAmount(dto.getTotalPrice());
-        pay.setStatus("UPDATED");
+        // 3. c_pay 업데이트
+        Pay pay = payRepository.findByOrderId(savedOrder.getId())
+                .orElse(new Pay());
         pay.setPayDate(LocalDateTime.now());
-        payRepository.save(pay);
-    }
+        pay.setStatus("pay_done");
+        pay.setAmount(savedOrder.getTotalPrice());
+        pay.setOrder(savedOrder);
 
+        payRepository.save(pay);
+        return savedOrder;
+    }
 }
