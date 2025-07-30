@@ -15,11 +15,8 @@ public class Pay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDateTime payDate;
-
     private String status;
-
     private Long amount;
 
     // FK: order_id → c_order.id
