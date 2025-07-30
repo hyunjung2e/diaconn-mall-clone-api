@@ -15,15 +15,11 @@ public class OrderDetail {
     private Long id;
 
     // FK: order_id → c_order.id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
-
     private Long productId;
-
     private Long productPrice;
-
     private Long productQuantity;
-
     private Long productTotalPrice;
 }
