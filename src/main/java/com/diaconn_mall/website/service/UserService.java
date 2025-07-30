@@ -7,6 +7,7 @@ import com.diaconn_mall.website.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,11 +35,13 @@ public class UserService {
     }
 
     // 마이페이지 수정
+    @Transactional
     public void updateUser(UserDto userDto,  HttpSession session) {
         User existingUser = userRepository.findByEmail(userDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         existingUser.setPhone(userDto.getPhone());
         existingUser.setPassword(userDto.getPassword());
+
         // 주소가 빈 문자열이면 null 처리
         if (userDto.getAddress() == null || userDto.getAddress().trim().isEmpty()) {
             existingUser.setAddress(null);
