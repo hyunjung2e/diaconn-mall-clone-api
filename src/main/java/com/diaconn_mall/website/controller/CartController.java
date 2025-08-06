@@ -27,4 +27,10 @@ public class CartController {
         List<ProductDto> cartItems = cartService.getCartItemsByUserId(userId);
         return ResponseEntity.ok(cartItems);
     }
+
+    @DeleteMapping("/{userId}/{productId}")
+    public ResponseEntity<?> deleteCartItem(@PathVariable Long userId, @PathVariable Long productId) {
+        cartService.deleteCartItem(userId, productId);
+        return ResponseEntity.ok(Map.of("message", "삭제 성공"));
+    }
 }
