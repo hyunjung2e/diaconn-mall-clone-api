@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +52,9 @@ public class UserService {
             existingUser.setAddressDetail(userDto.getAddressDetail());
         }
         // DB 저장
+        existingUser.setUpdatedAt(LocalDateTime.now());
         userRepository.save(existingUser);
+
         // 세션 유저 정보 업데이트
         LoginUserDto updatedSessionUser = new LoginUserDto(existingUser); // DTO로 변환
         session.setAttribute("user", updatedSessionUser);
