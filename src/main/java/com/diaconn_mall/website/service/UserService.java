@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.nio.charset.StandardCharsets;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 회원가입 시 이메일 중복검사
     public boolean isEmailDuplicate(String email) {
@@ -26,11 +29,15 @@ public class UserService {
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
+        // 내부 보안 가드: BCrypt 한계 보호(사용자 메시지는 일반화)
+        if (userDto.getPassword().getBytes(StandardCharsets.UTF_8).length > 72) {
+            throw new IllegalArgumentException("비밀번호 형식이 올바르지 않습니다. 다른 비밀번호를 사용해 주세요.");
+        }
         User user = new User();
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
         user.setPhone(userDto.getPhone());
-        user.setPassword(userDto.getPassword()); // 실무에선 반드시 암호화 필요!
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setAddress(userDto.getAddress());
         userRepository.save(user);
     }
@@ -41,7 +48,12 @@ public class UserService {
         User existingUser = userRepository.findByEmail(userDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         existingUser.setPhone(userDto.getPhone());
-        existingUser.setPassword(userDto.getPassword());
+        if (userDto.getPassword() != null && !userDto.getPassword().isBlank()) {
+            if (userDto.getPassword().getBytes(StandardCharsets.UTF_8).length > 72) {
+                throw new IllegalArgumentException("비밀번호 형식이 올바르지 않습니다. 다른 비밀번호를 사용해 주세요.");
+            }
+            existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
 
         // 주소가 빈 문자열이면 null 처리
         if (userDto.getAddress() == null || userDto.getAddress().trim().isEmpty()) {
