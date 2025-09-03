@@ -42,7 +42,6 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
 
         // 2. c_order_datail 업데이트
-        // NullPointerException 대비
         List<OrderDetail> orderDetails = Optional.ofNullable(orderDto.getOrderDetails())
                 .orElse(Collections.emptyList())
                 .stream()
@@ -50,9 +49,11 @@ public class OrderService {
                     OrderDetail detail = new OrderDetail();
                     detail.setOrder(savedOrder);
                     detail.setProductId(detailDto.getProductId());
-                    detail.setProductPrice(detailDto.getProductPrice());
-                    detail.setProductQuantity(detailDto.getProductQuantity());
-                    detail.setProductTotalPrice(detailDto.getProductPrice() * detailDto.getProductQuantity());
+                    Long productPrice = detailDto.getProductPrice();
+                    Long productQuantity = detailDto.getProductQuantity();
+                    detail.setProductPrice(productPrice);
+                    detail.setProductQuantity(productQuantity);
+                    detail.setProductTotalPrice(productPrice * productQuantity);
                     return detail;
                 })
                 .toList();
