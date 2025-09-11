@@ -40,7 +40,7 @@ CREATE TABLE `c_cart` (
   KEY `fk_cart_user` (`user_id`),
   CONSTRAINT `fk_cart_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`),
   CONSTRAINT `product_id` FOREIGN KEY (`id`) REFERENCES `c_product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,6 +49,7 @@ CREATE TABLE `c_cart` (
 
 LOCK TABLES `c_cart` WRITE;
 /*!40000 ALTER TABLE `c_cart` DISABLE KEYS */;
+INSERT INTO `c_cart` VALUES (6,1,'2025-09-10 22:17:38',4,11),(7,1,'2025-09-10 22:17:54',4,5);
 /*!40000 ALTER TABLE `c_cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,7 +96,7 @@ CREATE TABLE `c_order` (
   PRIMARY KEY (`id`),
   KEY `fk_order_user` (`user_id`),
   CONSTRAINT `fk_order_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +105,6 @@ CREATE TABLE `c_order` (
 
 LOCK TABLES `c_order` WRITE;
 /*!40000 ALTER TABLE `c_order` DISABLE KEYS */;
-INSERT INTO `c_order` VALUES (1,185000,'2025-07-30 13:23:52','서울시 동작구','동작구','01012341234','현정',2,''),(2,30000,'2025-07-30 13:47:37','서울시 동작구','동작구','01012341234','현정',2,''),(3,20000,'2025-07-30 13:54:06','서울시 동작구','동작구','01012341234','현정',2,'테스트!!!!!'),(4,10000,'2025-07-30 13:55:54','서울시 동작구','동작구','01012341234','현정',2,''),(5,10000,'2025-07-30 14:02:26','서울시 동작구','동작구','01012341234','현정',2,'34124122442'),(6,30000,'2025-07-30 14:05:01','서울시 동작구','동작구','01012341234','현정',2,''),(7,30000,'2025-07-30 14:22:56','서울시 동작구','동작구','01012341234','현정',2,'fcuuvuyvuuvuvgcfxxdxd'),(8,30000,'2025-07-30 14:24:30','서울시 동작구','동작구','01012341234','현정',2,'ㅟㅣㅟㅟㅟㅜㅟㅟ'),(9,30000,'2025-07-30 14:28:40','서울시 동작구','동작구','01012341234','현정',2,'ㅣㅡ2ㅣㅡ2ㅢㅢ2ㅢ2ㅢ2'),(10,30000,'2025-07-30 14:32:02','서울시 동작구','동작구','01012341234','현정',2,'막테테테테테');
 /*!40000 ALTER TABLE `c_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,7 +125,7 @@ CREATE TABLE `c_order_detail` (
   PRIMARY KEY (`id`),
   KEY `fk_orderdetail_order` (`order_id`),
   CONSTRAINT `fk_orderdetail_order` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +134,6 @@ CREATE TABLE `c_order_detail` (
 
 LOCK TABLES `c_order_detail` WRITE;
 /*!40000 ALTER TABLE `c_order_detail` DISABLE KEYS */;
-INSERT INTO `c_order_detail` VALUES (1,10,1,20000,1,20000),(2,10,2,10000,1,10000);
 /*!40000 ALTER TABLE `c_order_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,7 +153,7 @@ CREATE TABLE `c_pay` (
   PRIMARY KEY (`id`),
   KEY `fk_pay_order` (`order_id`),
   CONSTRAINT `fk_pay_order` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +162,6 @@ CREATE TABLE `c_pay` (
 
 LOCK TABLES `c_pay` WRITE;
 /*!40000 ALTER TABLE `c_pay` DISABLE KEYS */;
-INSERT INTO `c_pay` VALUES (1,'2025-07-30 13:23:52','pay_done',185000,1),(2,'2025-07-30 13:47:37','pay_done',30000,2),(3,'2025-07-30 13:54:06','pay_done',20000,3),(4,'2025-07-30 13:55:54','pay_done',10000,4),(5,'2025-07-30 14:02:26','pay_done',10000,5),(6,'2025-07-30 14:05:01','pay_done',30000,6),(7,'2025-07-30 14:22:56','pay_done',30000,7),(8,'2025-07-30 14:24:30','pay_done',30000,8),(9,'2025-07-30 14:28:40','pay_done',30000,9),(10,'2025-07-30 14:32:02','pay_done',30000,10);
 /*!40000 ALTER TABLE `c_pay` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,7 +178,7 @@ CREATE TABLE `c_product` (
   `desc` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `count` int NOT NULL,
   `price` int NOT NULL,
-  `img_url` longtext COLLATE utf8mb3_bin,
+  `img_url` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin,
   `state` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `alt_text` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `is_banner` bit(1) NOT NULL,
@@ -220,7 +218,7 @@ CREATE TABLE `c_user` (
   `outdate_at` datetime DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,8 +227,35 @@ CREATE TABLE `c_user` (
 
 LOCK TABLES `c_user` WRITE;
 /*!40000 ALTER TABLE `c_user` DISABLE KEYS */;
-INSERT INTO `c_user` VALUES (1,'sein','서울','금천구','sein@test.1','01094046005','N','2025-05-28 00:00:00','2025-05-26 00:00:00',NULL,'1234'),(2,'현정','서울시 동작구','동작구','test@test.com','01012341234','N','2025-06-04 12:59:16','2025-06-04 12:59:16',NULL,'1111');
+INSERT INTO `c_user` VALUES (4,'현정','동작구',NULL,'test@test.com','01000000000','N','2025-09-10 22:00:40','2025-09-10 22:00:40',NULL,'$2a$10$kxZSqTrk9rjdHDaVG.Re8.WSuW1lZskk//goSGUq4anlsa2fa9ED2');
 /*!40000 ALTER TABLE `c_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `password_reset_token`
+--
+
+DROP TABLE IF EXISTS `password_reset_token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `password_reset_token` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `expires_at` datetime(6) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `used` bit(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_g0guo4k8krgpwuagos61oc06j` (`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_reset_token`
+--
+
+LOCK TABLES `password_reset_token` WRITE;
+/*!40000 ALTER TABLE `password_reset_token` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_reset_token` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -242,4 +267,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-30 23:41:10
+-- Dump completed on 2025-09-11 12:18:17
