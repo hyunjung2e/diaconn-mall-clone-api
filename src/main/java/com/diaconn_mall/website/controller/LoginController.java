@@ -1,5 +1,6 @@
 package com.diaconn_mall.website.controller;
 
+import com.diaconn_mall.website.dto.ForgotPasswordRequestDto;
 import com.diaconn_mall.website.dto.LoginDto;
 import com.diaconn_mall.website.dto.LoginResponseDto;
 import com.diaconn_mall.website.dto.LoginUserDto;
@@ -48,5 +49,14 @@ public class LoginController {
     public ResponseEntity<?> logout(HttpSession session) {
         session.invalidate(); // 세션 무효화
         return ResponseEntity.ok(Map.of("message", "로그아웃 되었습니다."));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Map<String, Object>> forgotPassword(@jakarta.validation.Valid @RequestBody ForgotPasswordRequestDto request) {
+        authService.requestPasswordReset(request);
+        return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "임시 비밀번호가 이메일로 전송되었습니다."
+        ));
     }
 }
