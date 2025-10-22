@@ -29,7 +29,7 @@ public class UserService {
     private static final String TEMP_PASSWORD_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
     private static final int TEMP_PASSWORD_LENGTH = 10;
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
-    private static final Duration EMAIL_CODE_TTL = Duration.ofMinutes(10);
+    private static final Duration EMAIL_CODE_TTL = Duration.ofMinutes(3);
     private static final int EMAIL_CODE_MAX_ATTEMPTS = 5;
 
     private final Map<String, EmailVerificationToken> emailToVerificationToken = new ConcurrentHashMap<>();
@@ -142,25 +142,26 @@ public class UserService {
 
     // 마이페이지 수정
     @Transactional
-    public void updateUser(UserDto userDto,  HttpSession session) {
-        User existingUser = userRepository.findByEmail(userDto.getEmail())
+    public void updateUser(UpdateUserRequest request, HttpSession session) {
+        User existingUser = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        existingUser.setPhone(userDto.getPhone());
-        if (userDto.getPassword() != null && !userDto.getPassword().isBlank()) {
-            if (userDto.getPassword().getBytes(StandardCharsets.UTF_8).length > 72) {
+        existingUser.setPhone(request.getPhone());
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            if (request.getPassword().getBytes(StandardCharsets.UTF_8).length > 72) {
                 throw new IllegalArgumentException("비밀번호 형식이 올바르지 않습니다. 다른 비밀번호를 사용해 주세요.");
             }
-            existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            existingUser.setPassword(passwordEncoder.encode(request.getPassword()));
         }
 
         // 주소가 빈 문자열이면 null 처리
-        if (userDto.getAddress() == null || userDto.getAddress().trim().isEmpty()) {
+        if (request.getAddress() == null || request.getAddress().trim().isEmpty()) {
             existingUser.setAddress(null);
             existingUser.setAddressDetail(null);
         } else {
-            existingUser.setAddress(userDto.getAddress());
-            existingUser.setAddressDetail(userDto.getAddressDetail());
+            existingUser.setAddress(request.getAddress());
+            existingUser.setAddressDetail(request.getAddressDetail());
         }
+
         // DB 저장
         existingUser.setUpdatedAt(LocalDateTime.now());
         userRepository.save(existingUser);

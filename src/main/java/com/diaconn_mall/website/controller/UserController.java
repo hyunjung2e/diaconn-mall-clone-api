@@ -3,6 +3,7 @@ package com.diaconn_mall.website.controller;
 import com.diaconn_mall.website.dto.EmailAuthDto;
 import com.diaconn_mall.website.dto.EmailVerifyDto;
 import com.diaconn_mall.website.dto.UserDto;
+import com.diaconn_mall.website.dto.UpdateUserRequest;
 import com.diaconn_mall.website.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -72,10 +73,10 @@ public class UserController {
     }
 
     @PutMapping(value = "/update", produces = "application/json")
-    public ResponseEntity<Map<String, String>> updateUser(@Valid @RequestBody UserDto userDto, HttpSession session) {
+    public ResponseEntity<Map<String, String>> updateUser(@Valid @RequestBody UpdateUserRequest request, HttpSession session) {
         try {
-            System.out.println("@@@@마이페이지 수정 요청 도착: " + userDto);
-            userService.updateUser(userDto, session); // 세션도 함께 업데이트
+            System.out.println("@@@@마이페이지 수정 요청 도착: " + request);
+            userService.updateUser(request, session); // 세션도 함께 업데이트
             return ResponseEntity.ok(Map.of("message", "회원정보 수정이 완료되었습니다."));
         } catch (Exception e) {
             log.error("마이페이지 수정중 오류 발생", e);
