@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.4.5, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.4.5, for macos15 (arm64)
 --
 -- Host: localhost    Database: diaconn_mall_clone
 -- ------------------------------------------------------
@@ -24,6 +24,72 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `diaconn_mall_clone` /*!40100 DEFAULT C
 USE `diaconn_mall_clone`;
 
 --
+-- Table structure for table `c_admin_audit_log`
+--
+
+DROP TABLE IF EXISTS `c_admin_audit_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `c_admin_audit_log` (
+  `id` bigint NOT NULL,
+  `admin_id` bigint NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `target_table` varchar(255) NOT NULL,
+  `action_detail` varchar(255) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `reg_pgm` varchar(100) NOT NULL,
+  `reg_usr_no` bigint NOT NULL,
+  `reg_dttm` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_admin_audit_log_user` (`admin_id`),
+  CONSTRAINT `fk_admin_audit_log_user` FOREIGN KEY (`admin_id`) REFERENCES `c_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `c_admin_audit_log`
+--
+
+LOCK TABLES `c_admin_audit_log` WRITE;
+/*!40000 ALTER TABLE `c_admin_audit_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `c_admin_audit_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `c_banner`
+--
+
+DROP TABLE IF EXISTS `c_banner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `c_banner` (
+  `id` bigint NOT NULL,
+  `nm` varchar(100) DEFAULT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
+  `link_url` varchar(255) DEFAULT NULL,
+  `is_active` varchar(10) DEFAULT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  `reg_pgm` varchar(100) NOT NULL,
+  `reg_usr_no` bigint NOT NULL,
+  `reg_dttm` datetime NOT NULL,
+  `upd_pgm` varchar(100) DEFAULT NULL,
+  `upd_usr_no` bigint DEFAULT NULL,
+  `upd_dttm` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `c_banner`
+--
+
+LOCK TABLES `c_banner` WRITE;
+/*!40000 ALTER TABLE `c_banner` DISABLE KEYS */;
+/*!40000 ALTER TABLE `c_banner` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `c_cart`
 --
 
@@ -38,9 +104,10 @@ CREATE TABLE `c_cart` (
   `product_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_cart_user` (`user_id`),
+  CONSTRAINT `fk_c_cart_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`),
   CONSTRAINT `fk_cart_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`),
   CONSTRAINT `product_id` FOREIGN KEY (`id`) REFERENCES `c_product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +116,7 @@ CREATE TABLE `c_cart` (
 
 LOCK TABLES `c_cart` WRITE;
 /*!40000 ALTER TABLE `c_cart` DISABLE KEYS */;
-INSERT INTO `c_cart` VALUES (6,1,'2025-09-10 22:17:38',4,11),(7,1,'2025-09-10 22:17:54',4,5),(8,2,'2025-09-11 12:38:10',5,4),(9,1,'2025-09-11 12:38:16',5,5),(12,1,'2025-10-16 12:53:35',4,3);
+INSERT INTO `c_cart` VALUES (8,2,'2025-09-11 12:38:10',5,4),(9,1,'2025-09-11 12:38:16',5,5),(12,4,'2025-10-16 12:53:35',4,3);
 /*!40000 ALTER TABLE `c_cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,6 +144,30 @@ LOCK TABLES `c_category` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `c_join_way_cd`
+--
+
+DROP TABLE IF EXISTS `c_join_way_cd`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `c_join_way_cd` (
+  `join_way_cd` bigint NOT NULL,
+  `join_way_cd_nm` varchar(255) DEFAULT NULL,
+  `reg_dttm` datetime NOT NULL,
+  PRIMARY KEY (`join_way_cd`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `c_join_way_cd`
+--
+
+LOCK TABLES `c_join_way_cd` WRITE;
+/*!40000 ALTER TABLE `c_join_way_cd` DISABLE KEYS */;
+/*!40000 ALTER TABLE `c_join_way_cd` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `c_order`
 --
 
@@ -96,7 +187,7 @@ CREATE TABLE `c_order` (
   PRIMARY KEY (`id`),
   KEY `fk_order_user` (`user_id`),
   CONSTRAINT `fk_order_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +196,7 @@ CREATE TABLE `c_order` (
 
 LOCK TABLES `c_order` WRITE;
 /*!40000 ALTER TABLE `c_order` DISABLE KEYS */;
-INSERT INTO `c_order` VALUES (12,185000,'2025-10-16 12:49:49','대구시 동구','아아아','01094046005','정세인',4,'');
+INSERT INTO `c_order` VALUES (12,185000,'2025-10-16 12:49:49','대구시 동구','아아아','01094046005','정세인',4,''),(13,39600,'2025-11-18 21:17:29','동작구','111','01000000000','현정',4,'문 앞');
 /*!40000 ALTER TABLE `c_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,7 +217,7 @@ CREATE TABLE `c_order_detail` (
   PRIMARY KEY (`id`),
   KEY `fk_orderdetail_order` (`order_id`),
   CONSTRAINT `fk_orderdetail_order` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +226,7 @@ CREATE TABLE `c_order_detail` (
 
 LOCK TABLES `c_order_detail` WRITE;
 /*!40000 ALTER TABLE `c_order_detail` DISABLE KEYS */;
-INSERT INTO `c_order_detail` VALUES (4,12,4,185000,1,185000);
+INSERT INTO `c_order_detail` VALUES (4,12,4,185000,1,185000),(5,13,5,19800,2,39600);
 /*!40000 ALTER TABLE `c_order_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +246,7 @@ CREATE TABLE `c_pay` (
   PRIMARY KEY (`id`),
   KEY `fk_pay_order` (`order_id`),
   CONSTRAINT `fk_pay_order` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,8 +255,42 @@ CREATE TABLE `c_pay` (
 
 LOCK TABLES `c_pay` WRITE;
 /*!40000 ALTER TABLE `c_pay` DISABLE KEYS */;
-INSERT INTO `c_pay` VALUES (12,'2025-10-16 12:49:49','pay_done',185000,12);
+INSERT INTO `c_pay` VALUES (12,'2025-10-16 12:49:49','pay_done',185000,12),(13,'2025-11-18 21:17:29','pay_done',39600,13);
 /*!40000 ALTER TABLE `c_pay` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `c_popup`
+--
+
+DROP TABLE IF EXISTS `c_popup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `c_popup` (
+  `id` bigint NOT NULL,
+  `nm` varchar(255) DEFAULT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
+  `link_url` varchar(255) DEFAULT NULL,
+  `is_active` varchar(10) DEFAULT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  `reg_pgm` varchar(100) NOT NULL,
+  `reg_usr_no` bigint NOT NULL,
+  `reg_dttm` datetime NOT NULL,
+  `upd_pgm` varchar(100) DEFAULT NULL,
+  `upd_usr_no` bigint DEFAULT NULL,
+  `upd_dttm` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `c_popup`
+--
+
+LOCK TABLES `c_popup` WRITE;
+/*!40000 ALTER TABLE `c_popup` DISABLE KEYS */;
+/*!40000 ALTER TABLE `c_popup` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -202,29 +327,6 @@ INSERT INTO `c_product` VALUES (1,'banner','상품 설명',1,0,'https://mall-clo
 UNLOCK TABLES;
 
 --
--- Table structure for table `c_test`
---
-
-DROP TABLE IF EXISTS `c_test`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `c_test` (
-  `COL` varchar(255) DEFAULT NULL,
-  `COL2` varchar(255) DEFAULT NULL,
-  `COL3` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `c_test`
---
-
-LOCK TABLES `c_test` WRITE;
-/*!40000 ALTER TABLE `c_test` DISABLE KEYS */;
-/*!40000 ALTER TABLE `c_test` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `c_user`
 --
 
@@ -243,7 +345,12 @@ CREATE TABLE `c_user` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `outdate_at` datetime DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `member_type` bigint DEFAULT NULL,
+  `join_way_cd` bigint DEFAULT NULL,
+  `token_refresh_dttm` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_c_user_join_way_cd` (`join_way_cd`),
+  CONSTRAINT `fk_c_user_join_way_cd` FOREIGN KEY (`join_way_cd`) REFERENCES `c_join_way_cd` (`join_way_cd`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -253,35 +360,8 @@ CREATE TABLE `c_user` (
 
 LOCK TABLES `c_user` WRITE;
 /*!40000 ALTER TABLE `c_user` DISABLE KEYS */;
-INSERT INTO `c_user` VALUES (4,'현정','동작구',NULL,'test@test.com','01000000000','N','2025-09-10 22:00:40','2025-09-10 22:00:40',NULL,'$2a$10$kxZSqTrk9rjdHDaVG.Re8.WSuW1lZskk//goSGUq4anlsa2fa9ED2'),(5,'정세인','서울시',NULL,'sein@naver.com','01094046005','N','2025-09-11 12:37:41','2025-09-11 12:37:41',NULL,'$2a$10$.e51Q0aqkjxZy.jtkR95cebif6KN7YcntZB2ZSwdL/TpQznGw/U7m'),(9,'김현정','서울시 동작구',NULL,'hjk_1137@naver.com','01000001234','N','2025-10-16 12:47:43','2025-10-16 12:47:43',NULL,'$2a$10$1j3mzULkMQQ3IoJljU1hZOZIkUgWELXqANCdDfvl/yqsspq2KFTHa');
+INSERT INTO `c_user` VALUES (4,'현정','동작구',NULL,'test@test.com','01000000000','N','2025-09-10 22:00:40','2025-09-10 22:00:40',NULL,'$2a$10$kxZSqTrk9rjdHDaVG.Re8.WSuW1lZskk//goSGUq4anlsa2fa9ED2',NULL,NULL,'2025-11-26 22:50:19'),(5,'정세인','서울시',NULL,'sein@naver.com','01094046005','N','2025-09-11 12:37:41','2025-09-11 12:37:41',NULL,'$2a$10$.e51Q0aqkjxZy.jtkR95cebif6KN7YcntZB2ZSwdL/TpQznGw/U7m',NULL,NULL,'2025-11-26 22:50:19'),(9,'김현정','서울시 동작구','1동','khyunjung.test@gmail.com','01000000000','N','2025-10-16 12:47:43','2025-11-18 21:26:14',NULL,'$2a$10$if5LHC598tkKjQiWyBU3MenveS8rKJ2bKOMsOj2Ci/bk3dUJeKM2a',NULL,NULL,'2025-11-26 22:50:19');
 /*!40000 ALTER TABLE `c_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `password_reset_token`
---
-
-DROP TABLE IF EXISTS `password_reset_token`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `password_reset_token` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `expires_at` datetime(6) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `used` bit(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_g0guo4k8krgpwuagos61oc06j` (`token`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `password_reset_token`
---
-
-LOCK TABLES `password_reset_token` WRITE;
-/*!40000 ALTER TABLE `password_reset_token` DISABLE KEYS */;
-/*!40000 ALTER TABLE `password_reset_token` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -293,4 +373,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-23  9:26:35
+-- Dump completed on 2025-11-26 23:01:15
