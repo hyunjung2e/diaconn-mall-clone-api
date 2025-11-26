@@ -104,7 +104,6 @@ CREATE TABLE `c_cart` (
   `product_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_cart_user` (`user_id`),
-  CONSTRAINT `fk_c_cart_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`),
   CONSTRAINT `fk_cart_user` FOREIGN KEY (`user_id`) REFERENCES `c_user` (`id`),
   CONSTRAINT `product_id` FOREIGN KEY (`id`) REFERENCES `c_product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
@@ -349,8 +348,8 @@ CREATE TABLE `c_user` (
   `join_way_cd` bigint DEFAULT NULL,
   `token_refresh_dttm` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `fk_c_user_join_way_cd` (`join_way_cd`),
-  CONSTRAINT `fk_c_user_join_way_cd` FOREIGN KEY (`join_way_cd`) REFERENCES `c_join_way_cd` (`join_way_cd`)
+  KEY `fk_user_join_way_cd` (`join_way_cd`),
+  CONSTRAINT `fk_user_join_way_cd` FOREIGN KEY (`join_way_cd`) REFERENCES `c_join_way_cd` (`join_way_cd`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -373,4 +372,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-26 23:01:15
+-- Dump completed on 2025-11-26 23:11:23
