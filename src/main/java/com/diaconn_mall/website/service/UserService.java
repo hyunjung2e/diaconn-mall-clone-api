@@ -1,6 +1,7 @@
 package com.diaconn_mall.website.service;
 
 import com.diaconn_mall.website.dto.*;
+import com.diaconn_mall.website.dto.req.UpdateUserRequestDto;
 import com.diaconn_mall.website.entity.User;
 import com.diaconn_mall.website.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -142,7 +143,7 @@ public class UserService {
 
     // 마이페이지 수정
     @Transactional
-    public void updateUser(UpdateUserRequest request, HttpSession session) {
+    public void updateUser(UpdateUserRequestDto request, HttpSession session) {
         User existingUser = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         existingUser.setPhone(request.getPhone());

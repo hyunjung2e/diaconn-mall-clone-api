@@ -52,15 +52,20 @@ public class CartService {
 
                     return new ProductDto(
                             product.getId(),
-                            product.isBanner(),
                             product.getNm(),
-                            product.getContentDesc(),
                             cart.getCount(),
                             product.getPrice(),
                             product.getImgUrl(),
-                            product.getAltText(),
                             product.getState(),
-                            product.getCategory()
+                            product.getAltText(),
+                            product.getCategory(),
+                            product.getContentDesc(),
+                            product.getRegPgm(),
+                            product.getRegUsrNo(),
+                            product.getRegDttm(),
+                            product.getUpdPgm(),
+                            product.getUpdUsrNo(),
+                            product.getUpdDttm()
                     );
                 })
                 .filter(p -> p != null)

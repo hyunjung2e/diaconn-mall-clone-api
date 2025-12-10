@@ -21,13 +21,13 @@ public class ProductService {
 
     public List<Product> getBanners() {
         return productRepository.findAll().stream()
-                .filter(Product::isBanner)
+                .filter(p -> "BANNER".equalsIgnoreCase(p.getState()))
                 .toList();
     }
 
     public List<Product> getProducts() {
         return productRepository.findAll().stream()
-                .filter(p -> !p.isBanner())
+                .filter(p -> !"BANNER".equalsIgnoreCase(p.getState()))
                 .toList();
     }
 

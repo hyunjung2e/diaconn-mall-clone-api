@@ -6,7 +6,6 @@ import com.diaconn_mall.website.dto.OrderSummaryDto;
 import com.diaconn_mall.website.entity.Order;
 import com.diaconn_mall.website.entity.OrderDetail;
 import com.diaconn_mall.website.entity.Pay;
-import com.diaconn_mall.website.entity.Product;
 import com.diaconn_mall.website.repository.OrderRepository;
 import com.diaconn_mall.website.repository.OrderDetailRepository;
 import com.diaconn_mall.website.repository.PayRepository;

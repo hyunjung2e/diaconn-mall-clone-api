@@ -3,7 +3,7 @@ package com.diaconn_mall.website.controller;
 import com.diaconn_mall.website.dto.EmailAuthDto;
 import com.diaconn_mall.website.dto.EmailVerifyDto;
 import com.diaconn_mall.website.dto.UserDto;
-import com.diaconn_mall.website.dto.UpdateUserRequest;
+import com.diaconn_mall.website.dto.req.UpdateUserRequestDto;
 import com.diaconn_mall.website.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -73,7 +73,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/update", produces = "application/json")
-    public ResponseEntity<Map<String, String>> updateUser(@Valid @RequestBody UpdateUserRequest request, HttpSession session) {
+    public ResponseEntity<Map<String, String>> updateUser(@Valid @RequestBody UpdateUserRequestDto request, HttpSession session) {
         try {
             System.out.println("@@@@마이페이지 수정 요청 도착: " + request);
             userService.updateUser(request, session); // 세션도 함께 업데이트

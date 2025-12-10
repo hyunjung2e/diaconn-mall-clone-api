@@ -1,7 +1,8 @@
 package com.diaconn_mall.website.service;
 
 import com.diaconn_mall.website.dto.*;
-import com.diaconn_mall.website.dto.ForgotPasswordRequestDto;
+import com.diaconn_mall.website.dto.req.ForgotPasswordRequestDto;
+import com.diaconn_mall.website.dto.res.LoginResponseDto;
 import com.diaconn_mall.website.entity.User;
 import com.diaconn_mall.website.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

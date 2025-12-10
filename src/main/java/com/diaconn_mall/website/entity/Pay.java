@@ -23,4 +23,13 @@ public class Pay {
     @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+    @Column(name = "reg_pgm")
+    private String regPgm;
+
+    @Column(name = "reg_usr_no")
+    private Long regUsrNo;
+
+    @Column(name = "reg_dttm")
+    private LocalDateTime regDttm;
 }

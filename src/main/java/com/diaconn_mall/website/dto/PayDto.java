@@ -1,14 +1,20 @@
 package com.diaconn_mall.website.dto;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.joda.time.DateTime;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class PayDto {
     private Long id;
     private Long orderId;
-    private DateTime payDate;
+    private LocalDateTime payDate;
     private String status;
     private Long amount;
+    private String regPgm;
+    private Long regUsrNo;
+    private LocalDateTime regDttm;
 }
+

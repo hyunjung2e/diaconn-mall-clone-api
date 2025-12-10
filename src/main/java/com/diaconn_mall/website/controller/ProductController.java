@@ -1,7 +1,9 @@
 package com.diaconn_mall.website.controller;
 
+import com.diaconn_mall.website.dto.BannerDto;
 import com.diaconn_mall.website.dto.ProductDto;
 import com.diaconn_mall.website.entity.Product;
+import com.diaconn_mall.website.service.BannerService;
 import com.diaconn_mall.website.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +17,12 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
 @Slf4j
 public class ProductController {
     private final ProductService productService;
+    private final BannerService bannerService;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
@@ -28,19 +31,22 @@ public class ProductController {
     private String region;
 
     @GetMapping("/banners")
-    public ResponseEntity<List<ProductDto>> getBanners() {
-        List<ProductDto> banners = productService.getBanners().stream()
-                .map(p -> new ProductDto(
-                        p.getId(),
-                        p.isBanner(),
-                        p.getNm(),
-                        p.getContentDesc(),
-                        p.getCount(),
-                        p.getPrice(),
-                        resolveImageUrl(p.getImgUrl()),
-                        p.getAltText(),
-                        p.getState(),
-                        p.getCategory()
+    public ResponseEntity<List<BannerDto>> getBanners() {
+        List<BannerDto> banners = bannerService.getBanners().stream()
+                .map(b -> new BannerDto(
+                        b.getId(),
+                        b.getNm(),
+                        b.getImageUrl(),
+                        b.getLinkUrl(),
+                        b.getIsActive(),
+                        b.getStartDate(),
+                        b.getEndDate(),
+                        b.getRegPgm(),
+                        b.getRegUsrNo(),
+                        b.getRegDttm(),
+                        b.getUpdPgm(),
+                        b.getUpdUsrNo(),
+                        b.getUpdDttm()
                 ))
                 .toList();
         return ResponseEntity.ok(banners);
@@ -51,15 +57,20 @@ public class ProductController {
         List<ProductDto> products = productService.getProducts().stream()
                 .map(p -> new ProductDto(
                         p.getId(),
-                        p.isBanner(),
                         p.getNm(),
-                        p.getContentDesc(),
                         p.getCount(),
                         p.getPrice(),
-                        resolveImageUrl(p.getImgUrl()),
-                        p.getAltText(),
+                        p.getImgUrl(),
                         p.getState(),
-                        p.getCategory()
+                        p.getAltText(),
+                        p.getCategory(),
+                        p.getContentDesc(),
+                        p.getRegPgm(),
+                        p.getRegUsrNo(),
+                        p.getRegDttm(),
+                        p.getUpdPgm(),
+                        p.getUpdUsrNo(),
+                        p.getUpdDttm()
                 ))
                 .toList();
         return ResponseEntity.ok(products);
@@ -71,15 +82,20 @@ public class ProductController {
         List<ProductDto> products = productService.getCategoryProducts(category).stream()
                 .map(p -> new ProductDto(
                         p.getId(),
-                        p.isBanner(),
                         p.getNm(),
-                        p.getContentDesc(),
                         p.getCount(),
                         p.getPrice(),
-                        resolveImageUrl(p.getImgUrl()),
-                        p.getAltText(),
+                        p.getImgUrl(),
                         p.getState(),
-                        p.getCategory()
+                        p.getAltText(),
+                        p.getCategory(),
+                        p.getContentDesc(),
+                        p.getRegPgm(),
+                        p.getRegUsrNo(),
+                        p.getRegDttm(),
+                        p.getUpdPgm(),
+                        p.getUpdUsrNo(),
+                        p.getUpdDttm()
                 ))
                 .toList();
         return ResponseEntity.ok(products);
@@ -91,7 +107,24 @@ public class ProductController {
         Optional<Product> product = productService.findById(id);
 
         if (product.isPresent()) {
-            return ResponseEntity.ok(product.get());
+            Product p = product.get();
+            return ResponseEntity.ok(new ProductDto(
+                    p.getId(),
+                    p.getNm(),
+                    p.getCount(),
+                    p.getPrice(),
+                    p.getImgUrl(),
+                    p.getState(),
+                    p.getAltText(),
+                    p.getCategory(),
+                    p.getContentDesc(),
+                    p.getRegPgm(),
+                    p.getRegUsrNo(),
+                    p.getRegDttm(),
+                    p.getUpdPgm(),
+                    p.getUpdUsrNo(),
+                    p.getUpdDttm()
+            ));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", "상품을 찾을 수 없습니다."));
@@ -105,27 +138,24 @@ public class ProductController {
         List<ProductDto> responseList = products.stream()
                 .map(p -> new ProductDto(
                         p.getId(),
-                        p.isBanner(),
                         p.getNm(),
-                        p.getContentDesc(),
                         p.getCount(),
                         p.getPrice(),
-                        resolveImageUrl(p.getImgUrl()),
-                        p.getAltText(),
+                        p.getImgUrl(),
                         p.getState(),
-                        p.getCategory()
+                        p.getAltText(),
+                        p.getCategory(),
+                        p.getContentDesc(),
+                        p.getRegPgm(),
+                        p.getRegUsrNo(),
+                        p.getRegDttm(),
+                        p.getUpdPgm(),
+                        p.getUpdUsrNo(),
+                        p.getUpdDttm()
                 ))
                 .toList();
 
         return ResponseEntity.ok(responseList);
-    }
-
-    private String resolveImageUrl(String path) {
-        if (path == null || path.isBlank()) return null;
-        if (path.startsWith("http")) return path;
-        String fullPath = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, path);
-        System.out.println("조립된 이미지 URL: " + fullPath);
-        return fullPath;
     }
 }
 

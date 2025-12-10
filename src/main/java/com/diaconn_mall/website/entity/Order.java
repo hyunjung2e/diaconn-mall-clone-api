@@ -3,7 +3,6 @@ package com.diaconn_mall.website.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.joda.time.DateTime;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
