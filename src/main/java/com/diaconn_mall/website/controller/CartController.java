@@ -3,6 +3,7 @@ package com.diaconn_mall.website.controller;
 import com.diaconn_mall.website.dto.ProductDto;
 import com.diaconn_mall.website.dto.req.AddToCartRequestDto;
 import com.diaconn_mall.website.service.CartService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,9 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping
-    public ResponseEntity<?> addToCart(@RequestBody AddToCartRequestDto request) {
-        cartService.addToCart(request.getUserId(), request.getProductId(), request.getCount());
+    public ResponseEntity<?> addToCart(@RequestBody AddToCartRequestDto request, HttpServletRequest httpRequest) {
+        String regPgm = httpRequest.getRequestURI();
+        cartService.addToCart(request.getUserId(), request.getProductId(), request.getCount(), regPgm);
         return ResponseEntity.ok(Map.of("message", "장바구니에 담았습니다"));
     }
     @GetMapping("/{userId}")

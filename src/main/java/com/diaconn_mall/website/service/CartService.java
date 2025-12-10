@@ -8,10 +8,9 @@ import com.diaconn_mall.website.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-
 import java.util.stream.Collectors;
 
 @Service
@@ -24,18 +23,24 @@ public class CartService {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
     }
-    public void addToCart(Long userId, Long productId, int count) {
+    public void addToCart(Long userId, Long productId, int count, String regPgm) {
         Optional<Cart> existing = cartRepository.findByUserIdAndProductId(userId, productId);
 
         if (existing.isPresent()) {
             Cart cart = existing.get();
             cart.setCount(cart.getCount() + count);
+            cart.setUpdPgm(regPgm);
+            cart.setUpdUsrNo(userId);
+            cart.setUpdDttm(LocalDateTime.now());
             cartRepository.save(cart);
         } else {
             Cart cart = new Cart();
             cart.setUserId(userId);
             cart.setProductId(productId);
             cart.setCount(count);
+            cart.setRegPgm(regPgm);
+            cart.setRegUsrNo(userId);
+            cart.setRegDttm(LocalDateTime.now());
             cartRepository.save(cart);
         }
     }

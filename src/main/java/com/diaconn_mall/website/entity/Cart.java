@@ -25,6 +25,22 @@ public class Cart {
 
     private int count;
 
-    private LocalDateTime addedAt = LocalDateTime.now();
+    @Column(name = "reg_pgm", nullable = false, length = 100)
+    private String regPgm;
+
+    @Column(name = "reg_usr_no", nullable = false)
+    private Long regUsrNo;
+
+    @Column(name = "reg_dttm", nullable = false)
+    private LocalDateTime regDttm;
+
+    @Column(name = "upd_pgm", length = 100)
+    private String updPgm;
+
+    @Column(name = "upd_usr_no")
+    private Long updUsrNo;
+
+    @Column(name = "upd_dttm")
+    private LocalDateTime updDttm;
 
 }

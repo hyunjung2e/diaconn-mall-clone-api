@@ -31,7 +31,7 @@ public class OrderService {
     
     // 주문 저장
     @Transactional
-    public Order saveOrder(OrderDto orderDto) {
+    public Order saveOrder(OrderDto orderDto, String regPgm) {
         // 1. c_order 업데이트
         Order order = new Order();
         order.setTotalPrice(orderDto.getTotalPrice());
@@ -42,6 +42,9 @@ public class OrderService {
         order.setName(orderDto.getName());
         order.setUserId(orderDto.getUserId());
         order.setMemo(orderDto.getMemo());
+        order.setRegPgm(regPgm);
+        order.setRegUsrNo(orderDto.getUserId());
+        order.setRegDttm(LocalDateTime.now());
 
         // order ID 확보
         Order savedOrder = orderRepository.save(order);
@@ -59,6 +62,9 @@ public class OrderService {
                     detail.setProductPrice(productPrice);
                     detail.setProductQuantity(productQuantity);
                     detail.setProductTotalPrice(productPrice * productQuantity);
+                    detail.setRegPgm(regPgm);
+                    detail.setRegUsrNo(orderDto.getUserId());
+                    detail.setRegDttm(LocalDateTime.now());
                     return detail;
                 })
                 .toList();

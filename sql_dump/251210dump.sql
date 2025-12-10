@@ -109,7 +109,6 @@ CREATE TABLE `c_cart` (
   `upd_pgm` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `upd_usr_no` bigint DEFAULT NULL,
   `upd_dttm` datetime DEFAULT NULL,
-  `added_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_cart_user` (`user_id`),
   KEY `fk_cart_product` (`product_id`),

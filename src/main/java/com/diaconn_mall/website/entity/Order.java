@@ -26,6 +26,15 @@ public class Order {
     private Long userId;
     private String memo;
 
+    @Column(name = "reg_pgm", nullable = false, length = 100)
+    private String regPgm;
+
+    @Column(name = "reg_usr_no", nullable = false)
+    private Long regUsrNo;
+
+    @Column(name = "reg_dttm", nullable = false)
+    private LocalDateTime regDttm;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
