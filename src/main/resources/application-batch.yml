@@ -1,0 +1,21 @@
+# 일별 매출 정산 Batch 실행용 프로필.
+# DB 계정·비밀번호는 각자의 application.yml(커밋 안 됨)을 그대로 쓰고, 여기서는 DB 와 실행 방식만 덮어쓴다.
+# 실행 예: java -jar app.jar --spring.profiles.active=batch fromDate=2026-10-01 toDate=2026-10-30 runId=1
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/healthcare_mall_batch?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+  main:
+    web-application-type: none
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      name: dailySalesSettlementJob
+
+logging:
+  level:
+    org.hibernate.SQL: warn
